@@ -36,9 +36,8 @@ func getFloat(unk interface{}) (float64, error) {
 	if v.Type().ConvertibleTo(boolType) {
 		if v.Convert(boolType).Bool() {
 			return 1.0, nil
-		} else {
-			return 0.0, nil
 		}
+		return 0.0, nil
 	}
 	if !v.Type().ConvertibleTo(floatType) {
 		return 0, fmt.Errorf("cannot convert %v to float64", v.Type())
@@ -48,26 +47,26 @@ func getFloat(unk interface{}) (float64, error) {
 }
 
 func getDptByGroupAddr(dest cemi.GroupAddr) (string, error) {
-	dptId := config.getDptId(dest.String())
-	if dptId == "" {
+	dptID := config.getDptID(dest.String())
+	if dptID == "" {
 		return "", fmt.Errorf("type for %s not found", dest.String())
 	}
-	return dptId, nil
+	return dptID, nil
 }
 
 func parseLDataInd(event knx.GroupEvent) (object dpt.DatapointValue, err error) {
-	dptId, err := getDptByGroupAddr(event.Destination)
+	dptID, err := getDptByGroupAddr(event.Destination)
 	if err != nil {
 		logrus.Errorf("Type for %s not found", event.Destination)
 		return nil, err
 	}
 
-	object, found := dpt.Produce(dptId)
+	object, found := dpt.Produce(dptID)
 	if !found {
-		logrus.Errorf("Type for %s not found", dptId)
-		return nil, fmt.Errorf("type for %s not found", dptId)
+		logrus.Errorf("Type for %s not found", dptID)
+		return nil, fmt.Errorf("type for %s not found", dptID)
 	}
-	logrus.Debugf("Produced object: %+v (%s)", object, dptId)
+	logrus.Debugf("Produced object: %+v (%s)", object, dptID)
 
 	err = object.Unpack(event.Data)
 	if err != nil {
@@ -82,7 +81,7 @@ func parseLDataInd(event knx.GroupEvent) (object dpt.DatapointValue, err error) 
 	}
 	logrus.Debugf("Float value: %f (original: %+v)", value, object)
 
-	getMetric(config.getDptName(dptId), dptId).With(prometheus.Labels{"source": event.Source.String(), "destination": event.Destination.String()}).Set(value)
+	getMetric(config.getDptName(dptID), dptID).With(prometheus.Labels{"source": event.Source.String(), "destination": event.Destination.String()}).Set(value)
 
 	return object, nil
 }

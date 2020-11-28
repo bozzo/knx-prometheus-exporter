@@ -67,9 +67,9 @@ func Test_getDptByGroupAddr(t *testing.T) {
 		{"Unknown group 0/6/1 should return an error", cemi.GroupAddr(0x601), "", true},
 	}
 
-	config.parseConfig(YmlConfiguration{
+	config.parseConfig(ymlConfiguration{
 		Version: 1,
-		Mapping: []YmlConfigurationTypeMapping{
+		Mapping: []ymlConfigurationTypeMapping{
 			{"1.001", []string{"0/0/1"}, "switch"},
 			{"12.001", []string{"0/0/2"}, "counter"},
 			{"14.001", []string{"0/0/3"}, "Acceleration Angular"},

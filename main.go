@@ -24,8 +24,8 @@ import (
 	"os"
 )
 
-var config = Configuration{
-	dptByGroup: map[string]string{},
+var config = configuration{
+	dptByGroup:    map[string]string{},
 	dptNameByType: map[string]string{},
 }
 

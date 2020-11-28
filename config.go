@@ -20,34 +20,35 @@ package main
 import (
 	"gopkg.in/yaml.v3"
 	"os"
+	"path/filepath"
 )
 
-type Configuration struct {
+type configuration struct {
 	dptByGroup    map[string]string
 	dptNameByType map[string]string
 }
 
-type YmlConfiguration struct {
+type ymlConfiguration struct {
 	Version int                           `yaml:"version"`
-	Mapping []YmlConfigurationTypeMapping `yaml:"mapping"`
+	Mapping []ymlConfigurationTypeMapping `yaml:"mapping"`
 }
 
-type YmlConfigurationTypeMapping struct {
-	DptId   string   `yaml:"dptId"`
+type ymlConfigurationTypeMapping struct {
+	DptID   string   `yaml:"dptID"`
 	Groups  []string `yaml:"groups"`
 	DptName string   `yaml:"dptName"`
 }
 
-func (config *Configuration) loadConfigurationFromFile() error {
+func (config *configuration) loadConfigurationFromFile() error {
 	file := os.Getenv("CONFIG_FILE")
 	if file == "" {
 		file = "config.yml"
 	}
-	ymlFile, err := os.Open(file)
+	ymlFile, err := os.Open(filepath.Clean(file))
 	if err != nil {
 		return err
 	}
-	var ymlConfig YmlConfiguration
+	var ymlConfig ymlConfiguration
 
 	decoder := yaml.NewDecoder(ymlFile)
 	err = decoder.Decode(&ymlConfig)
@@ -60,23 +61,23 @@ func (config *Configuration) loadConfigurationFromFile() error {
 	return nil
 }
 
-func (config *Configuration) parseConfig(ymlConfig YmlConfiguration) {
+func (config *configuration) parseConfig(ymlConfig ymlConfiguration) {
 	for _, obj := range ymlConfig.Mapping {
 		for _, group := range obj.Groups {
-			config.dptByGroup[group] = obj.DptId
+			config.dptByGroup[group] = obj.DptID
 		}
-		config.dptNameByType[obj.DptId] = obj.DptName
+		config.dptNameByType[obj.DptID] = obj.DptName
 	}
 }
 
-func (config *Configuration) getDptId(group string) string {
+func (config *configuration) getDptID(group string) string {
 	return config.dptByGroup[group]
 }
 
-func (config *Configuration) getDptName(dpt string) string {
+func (config *configuration) getDptName(dpt string) string {
 	return config.dptNameByType[dpt]
 }
 
-func (config *Configuration) getDptAndName() map[string]string {
+func (config *configuration) getDptAndName() map[string]string {
 	return config.dptNameByType
 }

@@ -17,12 +17,12 @@
 # Sample configuration file
 version: 1
 mapping:
-  - dptId: 1.001
+  - dptID: 1.001
     groups:
       - 0/0/1
       - 0/0/3
     dptName: switch
-  - dptId: 14.056
+  - dptID: 14.056
     dptName: "Electric Power"
     groups:
       - 0/6/0
