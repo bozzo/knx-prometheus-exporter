@@ -30,13 +30,13 @@ import (
 
 var metrics = map[string]*prometheus.GaugeVec{}
 
-func getMetric(dptName string, dptId string) *prometheus.GaugeVec {
+func getMetric(dptName string, dptID string) *prometheus.GaugeVec {
 	if metric := metrics[dptName]; metric != nil {
 		return metric
 	}
 	metrics[dptName] = promauto.NewGaugeVec(prometheus.GaugeOpts{
 		Name: "knx_" + strcase.ToSnake(dptName),
-		Help: "The " + dptName + " represented by DPT " + dptId,
+		Help: "The " + dptName + " represented by DPT " + dptID,
 	}, []string{"source", "destination"})
 	return metrics[dptName]
 }
