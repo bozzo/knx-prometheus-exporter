@@ -21,7 +21,7 @@ require (
 	github.com/bozzo/knx-go v0.0.0-20201121180403-969a1e163827
 	github.com/iancoleman/strcase v0.1.2
 	github.com/kr/pretty v0.2.1 // indirect
-	github.com/prometheus/client_golang v1.8.0
+	github.com/prometheus/client_golang v1.11.0
 	github.com/sirupsen/logrus v1.6.0
 	github.com/stretchr/testify v1.6.1 // indirect
 	golang.org/x/text v0.3.4 // indirect
