@@ -22,7 +22,7 @@ require (
 	github.com/iancoleman/strcase v0.1.2
 	github.com/kr/pretty v0.2.1 // indirect
 	github.com/prometheus/client_golang v1.12.0
-	github.com/sirupsen/logrus v1.6.0
+	github.com/sirupsen/logrus v1.8.1
 	github.com/stretchr/testify v1.6.1 // indirect
 	gopkg.in/yaml.v3 v3.0.0-20200313102051-9f266ea9e77c
 )
